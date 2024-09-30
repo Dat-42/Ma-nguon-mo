@@ -17,6 +17,48 @@ def show_all_data():
     text_area.delete('1.0', tk.END)
     text_area.insert(tk.END, df_filtered.to_string())
 
+# Hàm để hiển thị tổng số sinh viên đi thi
+def show_total_students():
+    tongsv = in_data_filtered[:, 1]
+    total_students = np.sum(tongsv)
+    text_area.delete('1.0', tk.END)
+    text_area.insert(tk.END, f"Tổng số sinh viên đi thi: {total_students}\n\n")
+    for i, sv in enumerate(tongsv, start=1):
+        text_area.insert(tk.END, f"Lớp {i}: {sv} sinh viên\n")
+
+# Hàm để hiển thị lớp có nhiều điểm nhất
+def show_max_scores():
+    diemA_plus = in_data_filtered[:, 2]
+    diemA = in_data_filtered[:, 3]
+    diemB_plus = in_data_filtered[:, 4]
+    diemB = in_data_filtered[:, 5]
+    diemC_plus = in_data_filtered[:, 6]
+    diemC = in_data_filtered[:, 7]
+    diemD_plus = in_data_filtered[:, 8]
+    diemD = in_data_filtered[:, 9]
+    diemF = in_data_filtered[:, 10]
+
+    max_a_plus = df_filtered.index[np.argmax(diemA_plus)]
+    max_a = df_filtered.index[np.argmax(diemA)]
+    max_b_plus = df_filtered.index[np.argmax(diemB_plus)]
+    max_b = df_filtered.index[np.argmax(diemB)]
+    max_c_plus = df_filtered.index[np.argmax(diemC_plus)]
+    max_c = df_filtered.index[np.argmax(diemC)]
+    max_d_plus = df_filtered.index[np.argmax(diemD_plus)]
+    max_d = df_filtered.index[np.argmax(diemD)]
+    max_f = df_filtered.index[np.argmax(diemF)]
+
+    text_area.delete('1.0', tk.END)
+    text_area.insert(tk.END, f"Lớp có nhiều điểm A+ nhất: {max_a_plus}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm A nhất: {max_a}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm B+ nhất: {max_b_plus}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm B nhất: {max_b}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm C+ nhất: {max_c_plus}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm C nhất: {max_c}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm D+ nhất: {max_d_plus}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm D nhất: {max_d}\n")
+    text_area.insert(tk.END, f"Lớp có nhiều điểm F nhất: {max_f}\n")
+
 # Hàm để hiển thị thống kê điểm
 def show_statistics():
     plt.figure()
@@ -46,40 +88,20 @@ def show_statistics():
     plt.title("Thống kê điểm")
     plt.show()
 
-# Hàm để hiển thị tổng số sinh viên đạt từng mức điểm
-def show_total_by_grade():
-    text_area.delete('1.0', tk.END)
+# Hàm để hiển thị chuẩn đầu ra
+def show_output_standard():
+    plt.figure()
+    l1 = in_data_filtered[:, 11]
+    l2 = in_data_filtered[:, 12]
 
-    diemA_plus = in_data_filtered[:, 2]
-    diemA = in_data_filtered[:, 3]
-    diemB_plus = in_data_filtered[:, 4]
-    diemB = in_data_filtered[:, 5]
-    diemC_plus = in_data_filtered[:, 6]
-    diemC = in_data_filtered[:, 7]
-    diemD_plus = in_data_filtered[:, 8]
-    diemD = in_data_filtered[:, 9]
-    diemF = in_data_filtered[:, 10]
+    plt.plot(range(len(l1)), l1, 'r-', label="L1")
+    plt.plot(range(len(l2)), l2, 'g-', label="L2")
+    plt.xlabel("Lớp")
+    plt.ylabel("Chuẩn đầu ra")
+    plt.legend(loc='upper right')
+    plt.title("Chuẩn đầu ra")
+    plt.show()
 
-    total_a_plus = np.sum(diemA_plus)
-    total_a = np.sum(diemA)
-    total_b_plus = np.sum(diemB_plus)
-    total_b = np.sum(diemB)
-    total_c_plus = np.sum(diemC_plus)
-    total_c = np.sum(diemC)
-    total_d_plus = np.sum(diemD_plus)
-    total_d = np.sum(diemD)
-    total_f = np.sum(diemF)
-
-    # Hiển thị tổng số sinh viên đạt từng điểm
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm A+: {total_a_plus}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm A: {total_a}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm B+: {total_b_plus}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm B: {total_b}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm C+: {total_c_plus}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm C: {total_c}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm D+: {total_d_plus}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm D: {total_d}\n")
-    text_area.insert(tk.END, f"Tổng số sinh viên đạt điểm F: {total_f}\n")
 
 
 # Tạo cửa sổ chính
@@ -90,22 +112,21 @@ root.geometry("1500x500")  # Đặt kích thước cửa sổ lớn hơn
 # Tạo khung cho các nút
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
-
 # Tạo khung cho khu vực hiển thị văn bản
 frame_text = ttk.Frame(root)
 frame_text.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10, pady=10)
-
 # Tạo các nút lựa chọn
 btn_all_data = ttk.Button(frame_buttons, text="Hiển thị toàn bộ dữ liệu", command=show_all_data)
-btn_statistics = ttk.Button(frame_buttons, text="Biểu đồ điểm thi", command=show_statistics)
-btn_total_by_grade = ttk.Button(frame_buttons, text="Tổng sinh viên theo điểm", command=show_total_by_grade)
-
+btn_total_students = ttk.Button(frame_buttons, text="Tổng số sinh viên đi thi", command=show_total_students)
+btn_max_scores = ttk.Button(frame_buttons, text="Lớp có nhiều điểm nhất", command=show_max_scores)
+btn_statistics = ttk.Button(frame_buttons, text="Thống kê điểm", command=show_statistics)
+btn_output_standard = ttk.Button(frame_buttons, text="Chuẩn đầu ra", command=show_output_standard)
 # Đặt các nút lên khung
 btn_all_data.pack(pady=5)
+btn_total_students.pack(pady=5)
+btn_max_scores.pack(pady=5)
 btn_statistics.pack(pady=5)
-btn_total_by_grade.pack(pady=5)
-
-
+btn_output_standard.pack(pady=5)
 # Tạo khu vực hiển thị văn bản
 text_area = scrolledtext.ScrolledText(frame_text, width=100, height=80)  # Đặt kích thước khu vực văn bản lớn hơn
 text_area.pack(fill=tk.BOTH, expand=True)
