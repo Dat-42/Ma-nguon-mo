@@ -102,7 +102,31 @@ def show_output_standard():
     plt.title("Chuẩn đầu ra")
     plt.show()
 
+# Hàm để hiển thị điểm thường xuyên
+def show_regular_scores():
+    plt.figure()
+    tx1 = in_data_filtered[:, 13]
+    tx2 = in_data_filtered[:, 14]
 
+    plt.plot(range(len(tx1)), tx1, 'r-', label="TX1")
+    plt.plot(range(len(tx2)), tx2, 'g-', label="TX2")
+    plt.xlabel("Lớp")
+    plt.ylabel("Điểm thường xuyên")
+    plt.legend(loc='upper right')
+    plt.title("Điểm thường xuyên")
+    plt.show()
+
+# Hàm để hiển thị điểm cuối kỳ
+def show_final_scores():
+    plt.figure()
+    final_scores = in_data_filtered[:, 15]
+
+    plt.plot(range(len(final_scores)), final_scores, 'b-', label="Điểm cuối kỳ")
+    plt.xlabel("Lớp")
+    plt.ylabel("Điểm cuối kỳ")
+    plt.legend(loc='upper right')
+    plt.title("Điểm cuối kỳ")
+    plt.show()
 
 # Tạo cửa sổ chính
 root = tk.Tk()
@@ -112,21 +136,29 @@ root.geometry("1500x500")  # Đặt kích thước cửa sổ lớn hơn
 # Tạo khung cho các nút
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
+
 # Tạo khung cho khu vực hiển thị văn bản
 frame_text = ttk.Frame(root)
 frame_text.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10, pady=10)
+
 # Tạo các nút lựa chọn
 btn_all_data = ttk.Button(frame_buttons, text="Hiển thị toàn bộ dữ liệu", command=show_all_data)
 btn_total_students = ttk.Button(frame_buttons, text="Tổng số sinh viên đi thi", command=show_total_students)
 btn_max_scores = ttk.Button(frame_buttons, text="Lớp có nhiều điểm nhất", command=show_max_scores)
 btn_statistics = ttk.Button(frame_buttons, text="Thống kê điểm", command=show_statistics)
 btn_output_standard = ttk.Button(frame_buttons, text="Chuẩn đầu ra", command=show_output_standard)
+btn_regular_scores = ttk.Button(frame_buttons, text="Điểm thường xuyên", command=show_regular_scores)
+btn_final_scores = ttk.Button(frame_buttons, text="Điểm cuối kỳ", command=show_final_scores)
+
 # Đặt các nút lên khung
 btn_all_data.pack(pady=5)
 btn_total_students.pack(pady=5)
 btn_max_scores.pack(pady=5)
 btn_statistics.pack(pady=5)
 btn_output_standard.pack(pady=5)
+btn_regular_scores.pack(pady=5)
+btn_final_scores.pack(pady=5)
+
 # Tạo khu vực hiển thị văn bản
 text_area = scrolledtext.ScrolledText(frame_text, width=100, height=80)  # Đặt kích thước khu vực văn bản lớn hơn
 text_area.pack(fill=tk.BOTH, expand=True)
