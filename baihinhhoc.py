@@ -53,6 +53,73 @@ def ve_hinh_luc_giac_3d():
     except ValueError as e:
         messagebox.showerror("Lỗi", f"Giá trị không hợp lệ: {e}")
 
+# Hàm vẽ hình cầu trong không gian 3D
+def ve_hinh_cau_3d():
+    try:
+        r = float(entry_ban_kinh.get())  # Nhập bán kính từ giao diện
+        if r <= 0:
+            raise ValueError("Bán kính phải lớn hơn 0.")
+
+        # Tính diện tích đáy và thể tích
+        dien_tich_day = math.pi * r ** 2
+        the_tich = (4/3) * math.pi * r ** 3
+
+        # Vẽ hình cầu
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        # Tạo các tọa độ cho hình cầu
+        u = np.linspace(0, 2 * np.pi, 100)
+        v = np.linspace(0, np.pi, 100)
+        x = r * np.outer(np.cos(u), np.sin(v))
+        y = r * np.outer(np.sin(u), np.sin(v))
+        z = r * np.outer(np.ones(np.size(u)), np.cos(v))
+
+        ax.plot_surface(x, y, z, color='cyan', alpha=0.5)
+
+        plt.title(f'Hình cầu với bán kính {r}')
+        plt.show()
+
+        # Hiển thị kết quả tính toán
+        messagebox.showinfo("Kết quả", f"Diện tích đáy: {dien_tich_day:.2f}\nThể tích: {the_tich:.2f}")
+
+    except ValueError as e:
+        messagebox.showerror("Lỗi", f"Giá trị không hợp lệ: {e}")
+
+# Hàm vẽ hình nón trong không gian 3D
+def ve_hinh_non_3d():
+    try:
+        r = float(entry_ban_kinh.get())  # Nhập bán kính từ giao diện
+        h = float(entry_chieu_cao.get())  # Nhập chiều cao từ giao diện
+        if r <= 0 or h <= 0:
+            raise ValueError("Bán kính và chiều cao phải lớn hơn 0.")
+
+        # Tính diện tích đáy và thể tích
+        dien_tich_day = math.pi * r ** 2
+        the_tich = (1/3) * math.pi * r ** 2 * h
+
+        # Vẽ hình nón
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        # Tạo các tọa độ cho hình nón
+        z = np.linspace(0, h, 100)  # Chiều cao
+        theta = np.linspace(0, 2 * np.pi, 100)  # Góc
+        theta_grid, z_grid = np.meshgrid(theta, z)
+        x_grid = r * (1 - z_grid / h) * np.cos(theta_grid)  # Đường kính
+        y_grid = r * (1 - z_grid / h) * np.sin(theta_grid)  # Đường kính
+
+        ax.plot_surface(x_grid, y_grid, z_grid, color='cyan', alpha=0.5)
+
+        plt.title(f'Hình nón với bán kính {r} và chiều cao {h}')
+        plt.show()
+
+        # Hiển thị kết quả tính toán
+        messagebox.showinfo("Kết quả", f"Diện tích đáy: {dien_tich_day:.2f}\nThể tích: {the_tich:.2f}")
+
+    except ValueError as e:
+        messagebox.showerror("Lỗi", f"Giá trị không hợp lệ: {e}")
+
 # Hàm tính diện tích và chu vi cho hình 2D
 def tinh_hinh_2d():
     try:
@@ -266,14 +333,27 @@ label_canh_luc_giac.grid(row=1, column=0, padx=10, pady=5)
 entry_canh_luc_giac = tk.Entry(frame_3d)
 entry_canh_luc_giac.grid(row=1, column=1, padx=10, pady=5)
 
+label_ban_kinh = tk.Label(frame_3d, text="Nhập ban kinh day:")
+label_ban_kinh.grid(row=3, column=0, padx=10, pady=5)
+entry_ban_kinh = tk.Entry(frame_3d)
+entry_ban_kinh.grid(row=3, column=1, padx=10, pady=5)
+
 label_chieu_cao_3d = tk.Label(frame_3d, text="Nhập chiều cao (cho hình trụ, nón, lục giác):")
 label_chieu_cao_3d.grid(row=2, column=0, padx=10, pady=5)
 entry_chieu_cao = tk.Entry(frame_3d)
 entry_chieu_cao.grid(row=2, column=1, padx=10, pady=5)
 
 # Nút để vẽ hình 3D
-button_ve_3d = tk.Button(frame_3d, text="Vẽ và Tính 3D", command=ve_hinh_luc_giac_3d)
-button_ve_3d.grid(row=3, column=0, columnspan=2, pady=10)
+def ve_hinh_3d():
+    selected_shape = combo_3d.get()
+    if selected_shape == "Hình cầu":
+        ve_hinh_cau_3d()
+    elif selected_shape == "Hình nón":
+        ve_hinh_non_3d()
+    elif selected_shape == "Hình lục giác":
+        ve_hinh_luc_giac_3d()
+button_ve_3d = tk.Button(frame_3d, text="Vẽ và Tính 3D", command=ve_hinh_3d())
+button_ve_3d.grid(row=4, column=0, columnspan=2, pady=10)
 
 # Chạy giao diện
 root.mainloop()
