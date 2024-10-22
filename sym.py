@@ -89,43 +89,49 @@ def thoat():
 # Giao diện GUI chính
 root = Tk()
 root.title("Ứng dụng Toán học")
+root.geometry("500x500")  # Thiết lập kích thước cửa sổ
+root.configure(bg="#f0f0f0")  # Đặt màu nền
+
+# Tạo khung để bố trí các phần
+frame = Frame(root, bg="#f0f0f0")
+frame.pack(pady=20)
 
 # Label và Entry để người dùng nhập hàm số
-ham_label = Label(root, text="Nhập hàm số (ví dụ: sin(x), cos(x), x**3 + 2*x**2 + 1):")
-ham_label.pack(pady=5)
-ham_entry = Entry(root, width=50)
-ham_entry.pack(pady=5)
+ham_label = Label(frame, text="Nhập hàm số (ví dụ: sin(x), cos(x), x**3 + 2*x**2 + 1):", bg="#f0f0f0")
+ham_label.grid(row=0, column=0, padx=10, pady=5, sticky=W)
+ham_entry = Entry(frame, width=40)
+ham_entry.grid(row=1, column=0, padx=10, pady=5)
 
 # Label và Entry để người dùng nhập bậc đạo hàm
-dao_ham_label = Label(root, text="Nhập bậc đạo hàm (n):")
-dao_ham_label.pack(pady=5)
-dao_ham_entry = Entry(root, width=5)
-dao_ham_entry.pack(pady=5)
+dao_ham_label = Label(frame, text="Nhập bậc đạo hàm (n):", bg="#f0f0f0")
+dao_ham_label.grid(row=2, column=0, padx=10, pady=5, sticky=W)
+dao_ham_entry = Entry(frame, width=5)
+dao_ham_entry.grid(row=3, column=0, padx=10, pady=5, sticky=W)
 
 # Nút để vẽ đồ thị hàm số
-ve_button = Button(root, text="Vẽ đồ thị hàm số", command=ve_do_thi)
-ve_button.pack(pady=5)
+ve_button = Button(frame, text="Vẽ đồ thị hàm số", command=ve_do_thi, bg="#87cefa")
+ve_button.grid(row=4, column=0, padx=10, pady=10, sticky=W)
 
 # Nút để tính đạo hàm, tích phân, cực trị
-tinh_button = Button(root, text="Tính đạo hàm, tích phân, cực trị", command=tinh_toan)
-tinh_button.pack(pady=5)
+tinh_button = Button(frame, text="Tính đạo hàm, tích phân, cực trị", command=tinh_toan, bg="#87cefa")
+tinh_button.grid(row=5, column=0, padx=10, pady=10, sticky=W)
 
 # Label để hiển thị kết quả đạo hàm và tích phân
-dh_label = Label(root, text="Đạo hàm:")
-dh_label.pack(pady=5)
+dh_label = Label(frame, text="Đạo hàm:", bg="#f0f0f0")
+dh_label.grid(row=6, column=0, padx=10, pady=5, sticky=W)
 
-tp_label = Label(root, text="Tích phân từ -6 đến 6:")
-tp_label.pack(pady=5)
+tp_label = Label(frame, text="Tích phân từ -6 đến 6:", bg="#f0f0f0")
+tp_label.grid(row=7, column=0, padx=10, pady=5, sticky=W)
 
-cuc_tri_label = Label(root, text="Cực trị:")
-cuc_tri_label.pack(pady=5)
+cuc_tri_label = Label(frame, text="Cực trị:", bg="#f0f0f0")
+cuc_tri_label.grid(row=8, column=0, padx=10, pady=5, sticky=W)
 
-cuc_dai_label = Label(root, text="Điểm cực đại:")
-cuc_dai_label.pack(pady=5)
+cuc_dai_label = Label(frame, text="Điểm cực đại:", bg="#f0f0f0")
+cuc_dai_label.grid(row=9, column=0, padx=10, pady=5, sticky=W)
 
 # Nút để thoát chương trình
-thoat_button = Button(root, text="Thoát", command=thoat)
-thoat_button.pack(pady=5)
+thoat_button = Button(root, text="Thoát", command=thoat, bg="#ff4500", fg="white")
+thoat_button.pack(pady=20)
 
 # Chạy giao diện
 root.mainloop()
